@@ -132,8 +132,8 @@ class _GISType(UserDefinedType):
         self.extended = self.as_binary == 'AsEWKB'
         self.use_st_prefix = use_st_prefix
         if use_st_prefix:
-            self.from_text = 'ST_' + self.from_text
-            self.as_binary = 'ST_' + self.as_binary
+            self.from_text = 'ST' + self.from_text
+            self.as_binary = 'ST' + self.as_binary
 
     def get_col_spec(self):
         if not self.geometry_type:

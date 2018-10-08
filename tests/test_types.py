@@ -20,7 +20,8 @@ def geometry_table():
 
 @pytest.fixture
 def geometry_table_no_st_prefix():
-    table = Table('table', MetaData(), Column('geom', Geometry(use_st_prefix=False)))
+    table = Table('table', MetaData(), Column(
+        'geom', Geometry(use_st_prefix=False)))
     return table
 
 
@@ -109,7 +110,8 @@ class TestGeometry():
         assert s.compile().params == {'geom_1': 'POINT(1 2)'}
 
     def test_select_bind_expression_no_st_prefix(self, geometry_table_no_st_prefix):
-        s = select([text('foo')]).where(geometry_table_no_st_prefix.c.geom == 'POINT(1 2)')
+        s = select([text('foo')]).where(
+            geometry_table_no_st_prefix.c.geom == 'POINT(1 2)')
         eq_sql(s, 'SELECT foo FROM "table" WHERE '
                   '"table".geom = GeomFromEWKT(:geom_1)')
         assert s.compile().params == {'geom_1': 'POINT(1 2)'}
@@ -168,12 +170,12 @@ class TestGeography():
     def test_select_bind_expression(self, geography_table):
         s = select([text('foo')]).where(geography_table.c.geom == 'POINT(1 2)')
         eq_sql(s, 'SELECT foo FROM "table" WHERE '
-                  '"table".geom = ST_GeogFromText(:geom_1)')
+                  '"table".geom = STGeomFromText(:geom_1)')
         assert s.compile().params == {'geom_1': 'POINT(1 2)'}
 
     def test_insert_bind_expression(self, geography_table):
         i = insert(geography_table).values(geom='POINT(1 2)')
-        eq_sql(i, 'INSERT INTO "table" (geom) VALUES (ST_GeogFromText(:geom))')
+        eq_sql(i, 'INSERT INTO "table" (geom) VALUES (STGeomFromText(:geom))')
         assert i.compile().params == {'geom': 'POINT(1 2)'}
 
     def test_function_call(self, geography_table):

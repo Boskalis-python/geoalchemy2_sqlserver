@@ -82,11 +82,11 @@ class BaseComparator(UserDefinedType.Comparator):
 
     def __getattr__(self, name):
 
-        # Function names that don't start with "ST_" are rejected.
+        # Function names that don't start with "ST" are rejected.
         # This is not to mess up with SQLAlchemy's use of
         # hasattr/getattr on Column objects.
 
-        if not name.startswith('ST_'):
+        if not name.startswith('ST'):
             raise AttributeError
 
         # We create our own _FunctionGenerator here, and use it in place of

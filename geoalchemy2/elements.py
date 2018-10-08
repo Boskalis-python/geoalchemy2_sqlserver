@@ -48,7 +48,7 @@ class _SpatialElement(functions.Function):
         else:
             args = [self.geom_from, self.data, self.srid]
         if not self.use_st_prefix:
-            args[0] = args[0].lstrip('ST_')
+            args[0] = args[0].lstrip('ST')
         functions.Function.__init__(self, *args)
 
     def __str__(self):
@@ -230,6 +230,7 @@ class CompositeElement(FunctionElement):
     """
     Instances of this class wrap a Postgres composite type.
     """
+
     def __init__(self, base, field, type_):
         self.name = field
         self.type = to_instance(type_)
